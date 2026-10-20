@@ -7,6 +7,7 @@ the tiles on the homepage and the pages under leistungen/.
 SERVICES = [
     {
         "slug": "gebaeudereinigung",
+        "icon": '<path d="M10 42V12l14-6 14 6v30"/><path d="M4 42h40"/><path d="M16 16h4M28 16h4M16 23h4M28 23h4M16 30h4M28 30h4"/><path d="M21 42v-6h6v6"/>',
         "name": "Gebäudereinigung",
         "form": "Gebäudereinigung",
         "tile": "Unterhaltsreinigung für Gewerbe- und Wohngebäude nach festem Leistungsplan. Für Hausverwaltungen, Gewerbeobjekte und Autohäuser.",
@@ -24,6 +25,7 @@ SERVICES = [
     },
     {
         "slug": "bueroreinigung",
+        "icon": '<rect x="10" y="8" width="28" height="18" rx="2"/><path d="M20 26l-2 6M28 26l2 6M15 32h18"/><path d="M6 38h36M10 38v4M38 38v4"/>',
         "name": "Büroreinigung",
         "form": "Büroreinigung",
         "tile": "Arbeitsplätze, Besprechungsräume, Küchen und Sanitärräume. Die Reinigungszeiten stimmen wir mit Ihrem Betrieb ab.",
@@ -40,6 +42,7 @@ SERVICES = [
     },
     {
         "slug": "fensterreinigung",
+        "icon": '<rect x="8" y="6" width="26" height="34" rx="1"/><path d="M21 6v34M8 23h26"/><path d="M30 30l10 10M36 26l-10 10"/><path d="M41 9v6M38 12h6"/>',
         "name": "Fensterreinigung",
         "form": "Fensterreinigung",
         "tile": "Glasflächen, Rahmen und Fensterbänke, innen und außen. Auch Schaufenster und Ausstellungsflächen.",
@@ -55,6 +58,7 @@ SERVICES = [
     },
     {
         "slug": "fassadenreinigung",
+        "icon": '<path d="M8 44V4h22v40"/><path d="M13 10h4M21 10h4M13 18h4M21 18h4M13 26h4M21 26h4M13 34h4M21 34h4"/><path d="M36 14c2 3 2 7 0 10M41 11c3.5 5 3.5 11 0 16"/><path d="M4 44h40"/>',
         "name": "Fassadenreinigung",
         "form": "Fassadenreinigung",
         "tile": "Fassaden aus Glas, Metall, Putz oder Klinker. Das Verfahren legen wir nach Material und Verschmutzung fest.",
@@ -71,6 +75,7 @@ SERVICES = [
     },
     {
         "slug": "treppenhausreinigung",
+        "icon": '<path d="M6 42h8v-8h8v-8h8v-8h8v-8h4"/><path d="M6 30l32-24"/><path d="M14 24v-4M22 18v-4M30 12V8"/>',
         "name": "Treppenhausreinigung",
         "form": "Treppenhausreinigung",
         "tile": "Treppen, Geländer, Eingangsbereiche und Briefkastenanlagen im festen Turnus. Für Hausverwaltungen und Eigentümer.",
@@ -87,6 +92,7 @@ SERVICES = [
     },
     {
         "slug": "privathaushalte",
+        "icon": '<path d="M6 22L24 7l18 15"/><path d="M11 18v24h26V18"/><path d="M20 42V30h8v12"/><path d="M31 10V5h4v8"/>',
         "name": "Privathaushalte",
         "form": "Privathaushalt",
         "h1": "Haushaltsreinigung in Oberhausen",
@@ -105,6 +111,7 @@ SERVICES = [
     },
     {
         "slug": "baustellen-endreinigung",
+        "icon": '<path d="M10 33c0-10 6-17 14-17s14 7 14 17"/><path d="M6 33h36a2 2 0 0 1 0 4H6a2 2 0 0 1 0-4z"/><path d="M20 17v10M28 17v10"/><path d="M8 43h32"/>',
         "name": "Baustellen-Endreinigung",
         "form": "Baustellen-Endreinigung",
         "tile": "Entfernung von Staub, Farb- und Mörtelresten nach Bau oder Renovierung. Die Räume sind danach übergabefertig.",

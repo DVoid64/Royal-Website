@@ -24,12 +24,19 @@ def quote_url(service):
     return "/?leistung=" + quote(service["form"]) + "#anfrage"
 
 
+def icon_svg(service, cls):
+    # Every stroke gets pathLength=1 so CSS can redraw the icon on hover
+    body = re.sub(r"<(path|rect|circle)\b", r'<\1 pathLength="1"', service["icon"])
+    return f'<svg class="{cls}" viewBox="0 0 48 48" aria-hidden="true">{body}</svg>'
+
+
 def build_tiles():
     items = []
     for i, s in enumerate(SERVICES):
         wide = " tile-wide" if i == 0 else ""
         items.append(f'''          <li class="tile{wide}">
             <a class="tile-link" href="leistungen/{s["slug"]}/">
+              {icon_svg(s, "tile-icon")}
               <h3>{esc(s["name"])}</h3>
               <p>{esc(s["tile"])}</p>
               <span class="tile-more">Details ansehen</span>
@@ -90,7 +97,8 @@ def build_page(s, header, footer, mobile_bar, icons):
 
   <main id="main">
     <section class="subhero">
-      <div class="container">
+      <div class="container subhero-inner">
+        <div class="seal seal-sub" data-seal="static" aria-hidden="true"></div>
         <nav class="breadcrumb" aria-label="Brotkrümelnavigation">
           <a href="/">Startseite</a>
           <span aria-hidden="true">/</span>
@@ -158,6 +166,7 @@ def build_page(s, header, footer, mobile_bar, icons):
 
   {icons}
 
+  <script src="/assets/js/seal.js" defer></script>
   <script src="/assets/js/main.js" defer></script>
 </body>
 </html>
