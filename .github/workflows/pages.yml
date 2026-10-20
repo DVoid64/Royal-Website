@@ -27,7 +27,7 @@ jobs:
       - name: Collect site files
         run: |
           mkdir _site
-          cp -r index.html impressum.html datenschutz.html robots.txt sitemap.xml CNAME assets leistungen branchen _site/
+          cp -r index.html impressum.html datenschutz.html robots.txt sitemap.xml CNAME assets leistungen branchen kontakt faq ueber-uns _site/
           touch _site/.nojekyll
 
       - uses: actions/configure-pages@v5

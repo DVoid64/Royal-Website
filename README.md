@@ -9,6 +9,7 @@ Reines HTML, CSS und JavaScript, ohne Build-Schritt. Schriften (Cormorant Garamo
 - `index.html` – Startseite
 - `leistungen/<leistung>/index.html` – je eine Unterseite pro Leistung (generiert, siehe unten)
 - `branchen/<branche>/index.html` – je eine Unterseite pro Branche (generiert, siehe unten)
+- `ueber-uns/`, `kontakt/`, `faq/` – Über uns, Angebotsformular, häufige Fragen (generiert)
 - `impressum.html`, `datenschutz.html` – Pflichtseiten
 - `assets/css/style.css` – Gestaltung
 - `assets/js/main.js` – Menü und Anfrageformular (öffnet WhatsApp oder das E-Mail-Programm mit fertiger Nachricht)
@@ -18,7 +19,7 @@ Reines HTML, CSS und JavaScript, ohne Build-Schritt. Schriften (Cormorant Garamo
 
 ## Leistungen bearbeiten
 
-Texte der sieben Leistungen stehen in `tools/services.py`, die der sechs Branchen in `tools/industries.py`. Nach einer Änderung:
+Texte der sieben Leistungen stehen in `tools/services.py`, die der sechs Branchen in `tools/industries.py`, die FAQ in `tools/faq.py`, Über uns und Kontaktformular in `tools/partials/`. Nach einer Änderung:
 
 ```
 cd tools && python3 build_services.py
