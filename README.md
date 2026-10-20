@@ -8,21 +8,23 @@ Reines HTML, CSS und JavaScript, ohne Build-Schritt. Schriften (Cormorant Garamo
 
 - `index.html` – Startseite
 - `leistungen/<leistung>/index.html` – je eine Unterseite pro Leistung (generiert, siehe unten)
+- `branchen/<branche>/index.html` – je eine Unterseite pro Branche (generiert, siehe unten)
 - `impressum.html`, `datenschutz.html` – Pflichtseiten
 - `assets/css/style.css` – Gestaltung
 - `assets/js/main.js` – Menü und Anfrageformular (öffnet WhatsApp oder das E-Mail-Programm mit fertiger Nachricht)
 - `assets/img/` – Logo, Icons, Vorschaubild für Social Media
+- `assets/img/photos/` – Symbolfotos von Pexels und Unsplash (Lizenz der Plattform, Nachweis im Impressum)
 - `.htaccess` – Weiterleitung auf https://royalclean-ay.de und Browser-Caching (Apache bei IONOS)
 
 ## Leistungen bearbeiten
 
-Texte der sieben Leistungen stehen in `tools/services.py`. Nach einer Änderung:
+Texte der sieben Leistungen stehen in `tools/services.py`, die der sechs Branchen in `tools/industries.py`. Nach einer Änderung:
 
 ```
 cd tools && python3 build_services.py
 ```
 
-Das Skript aktualisiert die Kacheln auf der Startseite, alle Unterseiten unter `leistungen/` und die `sitemap.xml`. Kopfzeile und Footer der Unterseiten werden aus `index.html` übernommen, also nach Änderungen daran ebenfalls neu erzeugen.
+Das Skript aktualisiert die Kacheln auf der Startseite, alle Unterseiten unter `leistungen/` und `branchen/`, die Kopfzeile aller Seiten und die `sitemap.xml`. Kopfzeile und Footer der Unterseiten werden aus `index.html` übernommen, also nach Änderungen daran ebenfalls neu erzeugen.
 
 ## Lokal ansehen
 
