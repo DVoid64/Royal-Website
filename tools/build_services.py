@@ -98,7 +98,9 @@ def build_page(s, header, footer, mobile_bar, icons):
   <main id="main">
     <section class="subhero">
       <div class="container subhero-inner">
-        <div class="seal seal-sub" data-seal="static" aria-hidden="true"></div>
+        <figure class="subhero-photo photo">
+          <img src="{s["photo"]}" alt="{esc(s["photo_alt"])}" width="1400" height="934" fetchpriority="high">
+        </figure>
         <nav class="breadcrumb" aria-label="Brotkrümelnavigation">
           <a href="/">Startseite</a>
           <span aria-hidden="true">/</span>
@@ -117,6 +119,7 @@ def build_page(s, header, footer, mobile_bar, icons):
           <li>Fotobericht nach jedem Einsatz</li>
           <li>Festpreis ohne versteckte Kosten</li>
         </ul>
+        <p class="photo-credit">Symbolfoto: Unsplash</p>
       </div>
     </section>
 
@@ -166,7 +169,6 @@ def build_page(s, header, footer, mobile_bar, icons):
 
   {icons}
 
-  <script src="/assets/js/seal.js" defer></script>
   <script src="/assets/js/main.js" defer></script>
 </body>
 </html>

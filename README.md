@@ -12,6 +12,7 @@ Reines HTML, CSS und JavaScript, ohne Build-Schritt. Schriften (Cormorant Garamo
 - `assets/css/style.css` – Gestaltung
 - `assets/js/main.js` – Menü und Anfrageformular (öffnet WhatsApp oder das E-Mail-Programm mit fertiger Nachricht)
 - `assets/img/` – Logo, Icons, Vorschaubild für Social Media
+- `assets/img/photos/` – Symbolfotos von Unsplash (Unsplash-Lizenz, Nachweis im Impressum)
 - `.htaccess` – Weiterleitung auf https://royalclean-ay.de und Browser-Caching (Apache bei IONOS)
 
 ## Leistungen bearbeiten
