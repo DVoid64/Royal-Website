@@ -60,6 +60,18 @@
     });
   });
 
+  // Service pages link to /?leistung=...#anfrage to preselect the service
+  var requested = new URLSearchParams(window.location.search).get("leistung");
+  if (requested) {
+    var match = Array.prototype.some.call(serviceSelect.options, function (o) { return o.value === requested; });
+    if (match) {
+      serviceSelect.value = requested;
+      if (requested === "Privathaushalt") {
+        form.querySelector('input[name="kunde"][value="Privat"]').checked = true;
+      }
+    }
+  }
+
   function updateCustomerType() {
     var isPrivate = form.querySelector('input[name="kunde"]:checked').value === "Privat";
     businessFields.forEach(function (el) {
@@ -69,6 +81,7 @@
   form.querySelectorAll('input[name="kunde"]').forEach(function (radio) {
     radio.addEventListener("change", updateCustomerType);
   });
+  updateCustomerType();
 
   var rules = [
     { id: "f-name", test: function (v) { return v.trim().length > 1; }, msg: "Bitte geben Sie Ihren Namen an." },
