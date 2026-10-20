@@ -189,6 +189,36 @@
     });
   }
 
+  // Touch screens: the gold light appears where the finger taps a card,
+  // and gold buttons catch a light sweep once as they scroll into view
+  if (!finePointer && !reduceMotion) {
+    document.querySelectorAll(".tile-link, .why-item, .owner, .need, .detail-aside, .menu-link, .faq-item summary, .other-list a, .client-list a").forEach(function (card) {
+      card.classList.add("has-glow");
+      card.addEventListener("pointerdown", function (e) {
+        var r = card.getBoundingClientRect();
+        card.style.setProperty("--glow-x", (e.clientX - r.left) + "px");
+        card.style.setProperty("--glow-y", (e.clientY - r.top) + "px");
+        card.classList.remove("is-tapped");
+        void card.offsetWidth;
+        card.classList.add("is-tapped");
+      });
+      card.addEventListener("animationend", function () {
+        card.classList.remove("is-tapped");
+      });
+    });
+
+    if ("IntersectionObserver" in window) {
+      var sweepIo = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("is-sweeping");
+          sweepIo.unobserve(entry.target);
+        });
+      }, { threshold: 1 });
+      document.querySelectorAll(".btn-gold").forEach(function (btn) { sweepIo.observe(btn); });
+    }
+  }
+
   // Count the figures on the about page up once they are visible
   if (!reduceMotion && "IntersectionObserver" in window) {
     var countIo = new IntersectionObserver(function (entries) {
