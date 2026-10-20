@@ -12,7 +12,7 @@ FAQ = [
     ("Was passiert, wenn etwas nicht sauber ist?",
      "Melden Sie uns den Mangel. Wir bessern innerhalb von 24 Stunden kostenlos nach."),
     ("Wer ist mein Ansprechpartner?",
-     "Für Ihr Objekt ist immer dieselbe Person zuständig. Sie kennt die Räume und die Absprachen und ist direkt für Sie erreichbar."),
+     "Für Ihr Objekt ist immer dieselbe Person aus unserem Team zuständig. Sie kennt die Räume und die Absprachen und ist direkt für Sie erreichbar. Die Inhaber sind nicht bei jedem Einsatz selbst vor Ort."),
     ("Arbeiten Sie mit Subunternehmern?",
      "Nein. Die Reinigung übernimmt unser eigenes Team. Wir vergeben keine Aufträge an andere Firmen."),
     ("Reinigen Sie auch einmalig?",
