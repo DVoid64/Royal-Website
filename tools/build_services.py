@@ -11,7 +11,7 @@ from urllib.parse import quote
 
 from PIL import Image
 
-from services import SERVICES
+from services import COMPANY, INDUSTRIES, MENU_GROUPS, SERVICES
 
 ROOT = Path(__file__).resolve().parent.parent
 INDEX = ROOT / "index.html"
@@ -30,6 +30,101 @@ def icon_svg(service, cls):
     # Every stroke gets pathLength=1 so CSS can redraw the icon on hover
     body = re.sub(r"<(path|rect|circle)\b", r'<\1 pathLength="1"', service["icon"])
     return f'<svg class="{cls}" viewBox="0 0 48 48" aria-hidden="true">{body}</svg>'
+
+
+CHEVRON = '<svg class="nav-chevron" viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1.5l5 5 5-5"/></svg>'
+BY_SLUG = {s["slug"]: s for s in SERVICES}
+
+
+def menu_link(href, title, text, icon=""):
+    return f'''<li><a class="menu-link" href="{href}">{icon}<span class="menu-text"><span class="menu-title">{esc(title)}</span><span class="menu-desc">{esc(text)}</span></span></a></li>'''
+
+
+def build_header():
+    groups = []
+    for label, slugs in MENU_GROUPS:
+        links = "\n                  ".join(
+            menu_link(f"/leistungen/{slug}/", BY_SLUG[slug]["name"], BY_SLUG[slug]["menu"], icon_svg(BY_SLUG[slug], "menu-icon"))
+            for slug in slugs
+        )
+        groups.append(f'''<div class="mega-group">
+                <p class="mega-heading">{esc(label)}</p>
+                <ul class="mega-list">
+                  {links}
+                </ul>
+              </div>''')
+    industries = "\n              ".join(menu_link(f"/leistungen/{slug}/", name, text) for name, text, slug in INDUSTRIES)
+    company = "\n              ".join(menu_link(href, name, text) for name, text, href in COMPANY)
+    return f'''<header class="site-header" data-header>
+    <div class="topbar">
+      <div class="container topbar-inner">
+        <p>Gebäudereinigung in Oberhausen, Mülheim an der Ruhr, Duisburg, Essen und Bottrop</p>
+        <ul class="topbar-links">
+          <li>Erreichbar 8:00 bis 16:00 Uhr</li>
+          <li><a href="tel:+4917676275792">0176 76275792</a></li>
+          <li><a href="mailto:info@royalclean-ay.de">info@royalclean-ay.de</a></li>
+          <li><a href="https://wa.me/4917676275792" target="_blank" rel="noopener">WhatsApp</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="container header-inner">
+      <a class="brand" href="/" aria-label="Royal Clean Services AY, zur Startseite">
+        <img src="/assets/img/logo-emblem-320.webp" width="160" height="119" alt="">
+        <span class="brand-name">Royal Clean <span>Services AY</span></span>
+      </a>
+
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-menu-toggle>
+        <span class="menu-toggle-bars" aria-hidden="true"></span>
+        <span class="visually-hidden">Menü</span>
+      </button>
+
+      <nav class="site-nav" id="site-nav" aria-label="Hauptnavigation" data-nav>
+        <ul class="nav-list">
+          <li class="nav-item nav-item-mega" data-dropdown>
+            <button class="nav-trigger" type="button" aria-expanded="false" aria-controls="menu-leistungen">Leistungen{CHEVRON}</button>
+            <div class="nav-panel mega" id="menu-leistungen">
+              <div class="mega-inner">
+              {groups[0]}
+              {groups[1]}
+              <aside class="mega-promo">
+                <img src="/assets/img/photos/einblick-team.webp" alt="" width="1400" height="934" loading="lazy">
+                <div class="mega-promo-body">
+                  <p class="mega-promo-title">Kostenloses Angebot in 24 Stunden</p>
+                  <p>Nach der Besichtigung, mit Festpreis.</p>
+                  <a class="btn btn-gold btn-small" href="/#anfrage">Angebot anfragen</a>
+                  <a class="mega-phone" href="tel:+4917676275792">oder 0176 76275792 anrufen</a>
+                </div>
+              </aside>
+              <a class="mega-all" href="/#leistungen">Alle Leistungen im Überblick</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item" data-dropdown>
+            <button class="nav-trigger" type="button" aria-expanded="false" aria-controls="menu-branchen">Branchen{CHEVRON}</button>
+            <ul class="nav-panel dropdown" id="menu-branchen">
+              {industries}
+            </ul>
+          </li>
+          <li class="nav-item" data-dropdown>
+            <button class="nav-trigger" type="button" aria-expanded="false" aria-controls="menu-unternehmen">Unternehmen{CHEVRON}</button>
+            <ul class="nav-panel dropdown" id="menu-unternehmen">
+              {company}
+            </ul>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="/#anfrage">Kontakt</a></li>
+        </ul>
+        <a class="btn btn-gold btn-small nav-cta" href="/#anfrage">Angebot anfragen</a>
+      </nav>
+    </div>
+    <span class="scroll-progress" aria-hidden="true" data-progress></span>
+  </header>'''
+
+
+def inject_header(path, header):
+    html_text = path.read_text(encoding="utf-8")
+    new = re.sub(r'<header class="site-header".*?</header>', lambda m: header, html_text, count=1, flags=re.S)
+    path.write_text(new, encoding="utf-8")
 
 
 def build_tiles():
@@ -189,7 +284,10 @@ def main():
     )
     INDEX.write_text(index, encoding="utf-8")
 
-    header = rootify(extract(index, '<header class="site-header"', "</header>"))
+    header = build_header()
+    for page in ("index.html", "impressum.html", "datenschutz.html"):
+        inject_header(ROOT / page, header)
+    index = INDEX.read_text(encoding="utf-8")
     footer = rootify(extract(index, '<footer class="site-footer">', "</footer>")).replace(' loading="lazy"', "")
     mobile_bar = rootify(extract(index, '<div class="mobile-bar">', "</div>"))
     icons = extract(index, '<svg width="0" height="0"', "</svg>\n\n  <script").rsplit("\n\n  <script", 1)[0]

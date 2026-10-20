@@ -7,6 +7,7 @@ the tiles on the homepage and the pages under leistungen/.
 SERVICES = [
     {
         "slug": "gebaeudereinigung",
+        "menu": "Unterhaltsreinigung nach Leistungsplan",
         "photo": "/assets/img/photos/gebaeudereinigung.webp",
         "photo_alt": "Reinigungsteam mit Staubsaugern und Wischmopp in einem modernen Gebäude",
         "photo_src": "Pexels",
@@ -28,6 +29,7 @@ SERVICES = [
     },
     {
         "slug": "bueroreinigung",
+        "menu": "Arbeitsplätze, Küchen und Sanitärräume",
         "photo": "/assets/img/photos/bueroreinigung.webp",
         "photo_alt": "Reinigungskraft saugt den Boden in einem hellen, modernen Raum",
         "photo_src": "Pexels",
@@ -48,6 +50,7 @@ SERVICES = [
     },
     {
         "slug": "fensterreinigung",
+        "menu": "Glas, Rahmen und Fensterbänke",
         "photo": "/assets/img/photos/fensterreinigung.webp",
         "photo_alt": "Reinigungskraft reinigt eine große Fensterfront",
         "photo_src": "Pexels",
@@ -67,6 +70,7 @@ SERVICES = [
     },
     {
         "slug": "fassadenreinigung",
+        "menu": "Glas, Metall, Putz und Klinker",
         "photo": "/assets/img/photos/fassadenreinigung.webp",
         "photo_alt": "Glasfassaden von Hochhäusern, von unten fotografiert",
         "photo_src": "Unsplash",
@@ -87,6 +91,7 @@ SERVICES = [
     },
     {
         "slug": "treppenhausreinigung",
+        "menu": "Mehrfamilienhäuser im festen Turnus",
         "photo": "/assets/img/photos/treppenhausreinigung.webp",
         "photo_alt": "Fassade eines Mehrfamilienhauses mit Balkonen",
         "photo_src": "Unsplash",
@@ -107,6 +112,7 @@ SERVICES = [
     },
     {
         "slug": "privathaushalte",
+        "menu": "Wohnungen und Häuser, einmalig oder regelmäßig",
         "photo": "/assets/img/photos/privathaushalte.webp",
         "photo_alt": "Reinigungskraft saugt ein Wohnzimmer",
         "photo_src": "Pexels",
@@ -129,6 +135,7 @@ SERVICES = [
     },
     {
         "slug": "baustellen-endreinigung",
+        "menu": "Übergabefertig nach Bau und Renovierung",
         "photo": "/assets/img/photos/baustellen-endreinigung.webp",
         "photo_alt": "Bauarbeiter mit Helmen auf einer Baustelle",
         "photo_src": "Unsplash",
@@ -147,4 +154,30 @@ SERVICES = [
         "for": ["Bauunternehmen", "Hauseigentümer"],
         "rhythm": "Einmalig zum vereinbarten Termin vor der Übergabe.",
     },
+]
+
+
+# Navigation groups in the "Leistungen" menu (slugs, in order)
+MENU_GROUPS = [
+    ("Für Gewerbe", ["gebaeudereinigung", "bueroreinigung", "fensterreinigung",
+                     "fassadenreinigung", "treppenhausreinigung", "baustellen-endreinigung"]),
+    ("Für Privat", ["privathaushalte", "fensterreinigung", "baustellen-endreinigung"]),
+]
+
+# "Branchen" menu: client group, short line, service page it leads to
+INDUSTRIES = [
+    ("Büros und Kanzleien", "Reinigung zu Zeiten, die zum Betrieb passen", "bueroreinigung"),
+    ("Arztpraxen", "Praxisräume, Wartebereiche und Sanitärräume", "bueroreinigung"),
+    ("Hausverwaltungen", "Treppenhäuser und Gemeinschaftsflächen", "treppenhausreinigung"),
+    ("Autohäuser", "Ausstellungsflächen und Glasfronten", "gebaeudereinigung"),
+    ("Bauunternehmen", "Endreinigung vor der Übergabe", "baustellen-endreinigung"),
+    ("Privathaushalte", "Wohnungen und Häuser", "privathaushalte"),
+]
+
+# "Unternehmen" menu: label, short line, link
+COMPANY = [
+    ("Über uns", "Gegründet 2025 in Oberhausen", "/#ueber-uns"),
+    ("Warum Royal Clean Services AY", "Unsere vier Zusagen", "/#warum"),
+    ("Ablauf", "Von der Anfrage zum Festpreis-Angebot", "/#ablauf"),
+    ("Einsatzgebiet", "Oberhausen und Umgebung", "/#einsatzgebiet"),
 ]

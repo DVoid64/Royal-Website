@@ -32,28 +32,96 @@
     }, { passive: true });
   }
 
-  // Mobile menu
+  // Navigation: drawer on small screens, dropdown and mega menu panels
   var toggle = document.querySelector("[data-menu-toggle]");
   var nav = document.querySelector("[data-nav]");
+  var dropdowns = Array.prototype.slice.call(document.querySelectorAll("[data-dropdown]"));
+  var desktop = window.matchMedia("(min-width: 1101px)");
+  var hoverCapable = window.matchMedia("(hover: hover) and (pointer: fine)");
+
+  function setPanel(item, open) {
+    var trigger = item.querySelector(".nav-trigger");
+    item.classList.toggle("is-open", open);
+    trigger.setAttribute("aria-expanded", String(open));
+    if (header) {
+      header.classList.toggle("has-panel", dropdowns.some(function (d) { return d.classList.contains("is-open"); }) && desktop.matches);
+    }
+  }
+
+  function closeAll(except) {
+    dropdowns.forEach(function (d) {
+      if (d !== except) setPanel(d, false);
+    });
+  }
+
+  dropdowns.forEach(function (item) {
+    var trigger = item.querySelector(".nav-trigger");
+    var openTimer, closeTimer;
+
+    trigger.addEventListener("click", function () {
+      var open = !item.classList.contains("is-open");
+      if (desktop.matches) closeAll(item);
+      setPanel(item, open);
+    });
+
+    // Hover intent on desktop: short delay to open, longer grace period to close
+    item.addEventListener("pointerenter", function (e) {
+      if (!desktop.matches || !hoverCapable.matches || e.pointerType !== "mouse") return;
+      clearTimeout(closeTimer);
+      openTimer = setTimeout(function () {
+        closeAll(item);
+        setPanel(item, true);
+      }, 90);
+    });
+    item.addEventListener("pointerleave", function (e) {
+      if (!desktop.matches || e.pointerType !== "mouse") return;
+      clearTimeout(openTimer);
+      closeTimer = setTimeout(function () { setPanel(item, false); }, 220);
+    });
+
+    // Leaving the menu with the keyboard closes it
+    item.addEventListener("focusout", function (e) {
+      if (desktop.matches && !item.contains(e.relatedTarget)) setPanel(item, false);
+    });
+  });
+
+  document.addEventListener("click", function (e) {
+    if (desktop.matches && !e.target.closest("[data-dropdown]")) closeAll();
+  });
+
   if (toggle && nav) {
     var setMenu = function (open) {
       toggle.setAttribute("aria-expanded", String(open));
       nav.classList.toggle("is-open", open);
       header.classList.toggle("is-open", open);
+      document.documentElement.style.overflow = open ? "hidden" : "";
+      if (!open) closeAll();
     };
     toggle.addEventListener("click", function () {
       setMenu(toggle.getAttribute("aria-expanded") !== "true");
     });
     nav.addEventListener("click", function (e) {
-      if (e.target.closest("a")) setMenu(false);
-    });
-    document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape" && nav.classList.contains("is-open")) {
+      if (e.target.closest("a")) {
         setMenu(false);
-        toggle.focus();
+        closeAll();
       }
     });
+    desktop.addEventListener("change", function () {
+      setMenu(false);
+    });
   }
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key !== "Escape") return;
+    var open = dropdowns.filter(function (d) { return d.classList.contains("is-open"); })[0];
+    if (open) {
+      setPanel(open, false);
+      open.querySelector(".nav-trigger").focus();
+    } else if (nav && nav.classList.contains("is-open")) {
+      setMenu(false);
+      toggle.focus();
+    }
+  });
 
   // Footer year
   var year = document.querySelector("[data-year]");
