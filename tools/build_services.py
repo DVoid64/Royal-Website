@@ -90,7 +90,7 @@ def build_header():
               {groups[0]}
               {groups[1]}
               <aside class="mega-promo">
-                <img src="/assets/img/photos/einblick-team.webp" alt="" width="1400" height="934" loading="lazy">
+                <img src="/assets/img/photos/fassadenreinigung.webp" alt="" width="1400" height="934" loading="lazy">
                 <div class="mega-promo-body">
                   <p class="mega-promo-title">Kostenloses Angebot in 24 Stunden</p>
                   <p>Nach der Besichtigung, mit Festpreis.</p>
@@ -216,7 +216,6 @@ def build_page(s, header, footer, mobile_bar, icons):
           <li>Fotobericht nach jedem Einsatz</li>
           <li>Festpreis ohne versteckte Kosten</li>
         </ul>
-        <p class="photo-credit">Symbolfoto: {s["photo_src"]}</p>
       </div>
     </section>
 
@@ -341,7 +340,6 @@ def build_industry_page(ind, header, footer, mobile_bar, icons):
           <li>Fotobericht nach jedem Einsatz</li>
           <li>Festpreis ohne versteckte Kosten</li>
         </ul>
-        <p class="photo-credit">Symbolfoto: {ind["photo_src"]}</p>
       </div>
     </section>
 
@@ -453,12 +451,16 @@ def shell(path, title, desc, body, body_class, chrome, scripts=("main",), extra=
 '''
 
 
-def build_faq(heading="h2", link=False):
+def build_faq(heading="h2", link=False, limit=None):
     items = "\n".join(f'''          <details class="faq-item">
             <summary>{esc(q)}<span class="faq-mark" aria-hidden="true"></span></summary>
             <p>{esc(a)}</p>
-          </details>''' for q, a in FAQ)
-    more = '\n          <a class="faq-more" href="/kontakt/">Ihre Frage ist nicht dabei? Schreiben Sie uns.</a>' if link else ""
+          </details>''' for q, a in FAQ[:limit])
+    more = ""
+    if link == "faq":
+        more = '\n          <a class="faq-more" href="/faq/">Alle Fragen ansehen</a>'
+    elif link:
+        more = '\n          <a class="faq-more" href="/kontakt/">Ihre Frage ist nicht dabei? Schreiben Sie uns.</a>'
     return f'''    <section class="section section-light faq" id="faq" aria-labelledby="faq-title">
       <div class="container faq-grid">
         <div class="faq-head">
@@ -499,7 +501,7 @@ def build_static_pages(index, chrome):
     }
     about = (ROOT / "tools/partials/ueber-uns.html").read_text(encoding="utf-8")
     process = extract(index, '    <section class="section section-light process"', "</section>")
-    area = extract(index, '    <section class="section area"', "</section>")
+    area = (ROOT / "tools/partials/area.html").read_text(encoding="utf-8").rstrip("\n")
     about = about.replace("{process}", process).replace("{area}", area)
     pages["ueber-uns/"] = ("Über uns | Royal Clean Services AY",
                            "Royal Clean Services AY: Gebäudereinigung aus Oberhausen, gegründet 2025 von Amir Hussain Rajabi und Yasin Yilmaz. Unser Versprechen und unser Team.",
@@ -521,7 +523,7 @@ def main():
     )
     index = re.sub(
         r"(<!-- faq:start -->).*?(\s*<!-- faq:end -->)",
-        lambda m: m.group(1) + "\n" + build_faq(link=True) + m.group(2),
+        lambda m: m.group(1) + "\n" + build_faq(link="faq", limit=4) + m.group(2),
         index,
         flags=re.S,
     )
