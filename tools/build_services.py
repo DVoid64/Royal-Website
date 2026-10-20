@@ -11,7 +11,8 @@ from urllib.parse import quote
 
 from PIL import Image
 
-from services import COMPANY, INDUSTRIES, MENU_GROUPS, SERVICES
+from industries import INDUSTRY_PAGES
+from services import COMPANY, MENU_GROUPS, SERVICES
 
 ROOT = Path(__file__).resolve().parent.parent
 INDEX = ROOT / "index.html"
@@ -53,7 +54,7 @@ def build_header():
                   {links}
                 </ul>
               </div>''')
-    industries = "\n              ".join(menu_link(f"/leistungen/{slug}/", name, text) for name, text, slug in INDUSTRIES)
+    industries = "\n              ".join(menu_link(f"/branchen/{i['slug']}/", i["name"], i["menu"]) for i in INDUSTRY_PAGES)
     company = "\n              ".join(menu_link(href, name, text) for name, text, href in COMPANY)
     return f'''<header class="site-header" data-header>
     <div class="topbar">
@@ -274,6 +275,138 @@ def build_page(s, header, footer, mobile_bar, icons):
 '''
 
 
+def build_industry_page(ind, header, footer, mobile_bar, icons):
+    with Image.open(ROOT / ind["photo"].lstrip("/")) as img:
+        w, h = img.size
+    url = f'{SITE}/branchen/{ind["slug"]}/'
+    title = f'{ind["h1"].replace(" in Oberhausen", "")} in Oberhausen | Royal Clean Services AY'
+    needs = "\n".join(f'''          <li class="need">
+            <h3>{esc(n_title)}</h3>
+            <p>{esc(n_text)}</p>
+          </li>''' for n_title, n_text in ind["needs"])
+    scope = "\n".join(f"              <li>{esc(x)}</li>" for x in ind["scope"])
+    services = "\n".join(
+        f'''            <li><a class="menu-link" href="/leistungen/{slug}/">{icon_svg(BY_SLUG[slug], "menu-icon")}<span class="menu-text"><span class="menu-title">{esc(BY_SLUG[slug]["name"])}</span><span class="menu-desc">{esc(BY_SLUG[slug]["menu"])}</span></span></a></li>'''
+        for slug in ind["services"]
+    )
+    others = "\n".join(
+        f'            <li><a href="/branchen/{o["slug"]}/">{esc(o["name"])}</a></li>'
+        for o in INDUSTRY_PAGES if o is not ind
+    )
+    first_service = BY_SLUG[ind["services"][0]]
+    return f'''<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{esc(title)}</title>
+  <meta name="description" content="{esc(ind["intro"])}">
+  <link rel="canonical" href="{url}">
+  <meta name="theme-color" content="#0A1128">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="de_DE">
+  <meta property="og:title" content="{esc(ind["h1"])} – Royal Clean Services AY">
+  <meta property="og:description" content="{esc(ind["intro"])}">
+  <meta property="og:url" content="{url}">
+  <meta property="og:image" content="{SITE}/assets/img/og-image.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32.png">
+  <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+  <link rel="preload" href="/assets/fonts/cormorant-garamond-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/jost-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body class="page-service page-industry">
+  <a class="skip-link" href="#main">Zum Inhalt springen</a>
+
+  {header}
+
+  <main id="main">
+    <section class="subhero">
+      <div class="container subhero-inner">
+        <figure class="subhero-photo photo">
+          <img src="{ind["photo"]}" alt="{esc(ind["photo_alt"])}" width="{w}" height="{h}" fetchpriority="high">
+        </figure>
+        <nav class="breadcrumb" aria-label="Brotkrümelnavigation">
+          <a href="/">Startseite</a>
+          <span aria-hidden="true">/</span>
+          <span>Branchen</span>
+          <span aria-hidden="true">/</span>
+          <span aria-current="page">{esc(ind["name"])}</span>
+        </nav>
+        <h1 class="subhero-title">{esc(ind["h1"])}</h1>
+        <p class="subhero-lead">{esc(ind["intro"])}</p>
+        <div class="hero-actions">
+          <a class="btn btn-gold btn-large" href="{quote_url(first_service)}">Kostenloses Angebot in 24 Stunden</a>
+          <a class="btn btn-quiet btn-large" href="tel:+4917676275792">0176 76275792 anrufen</a>
+        </div>
+        <ul class="hero-facts" aria-label="Unsere Kernzusagen">
+          <li>Angebot in 24 Stunden</li>
+          <li>Fotobericht nach jedem Einsatz</li>
+          <li>Festpreis ohne versteckte Kosten</li>
+        </ul>
+        <p class="photo-credit">Symbolfoto: {ind["photo_src"]}</p>
+      </div>
+    </section>
+
+    <section class="section needs-section" aria-labelledby="needs-title">
+      <div class="container">
+        <h2 id="needs-title" class="needs-title">{esc(ind["needs_title"])}</h2>
+        <ul class="needs">
+{needs}
+        </ul>
+      </div>
+    </section>
+
+    <section class="section section-light detail" aria-labelledby="umfang-title">
+      <div class="container detail-grid">
+        <div>
+          <h2 id="umfang-title">Was wir reinigen</h2>
+          <ul class="scope-list">
+{scope}
+          </ul>
+          <p class="detail-note">Den genauen Umfang legen wir bei der Besichtigung mit Ihnen fest.</p>
+        </div>
+        <aside class="detail-aside detail-services">
+          <h3>Passende Leistungen</h3>
+          <ul>
+{services}
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section cta-band" aria-labelledby="cta-title">
+      <div class="container cta-inner">
+        <div>
+          <h2 id="cta-title">Angebot für {esc(ind["name"])} anfragen</h2>
+          <p>Kostenlos und unverbindlich. Innerhalb von 24 Stunden nach der Besichtigung erhalten Sie ein Angebot mit Festpreis.</p>
+        </div>
+        <a class="btn btn-gold btn-large" href="{quote_url(first_service)}">Kostenloses Angebot in 24 Stunden</a>
+      </div>
+    </section>
+
+    <section class="section section-light other-services" aria-labelledby="weitere-title">
+      <div class="container">
+        <h2 id="weitere-title">Weitere Branchen</h2>
+        <ul class="other-list">
+{others}
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  {footer}
+
+  {mobile_bar}
+
+  {icons}
+
+  <script src="/assets/js/main.js" defer></script>
+</body>
+</html>
+'''
+
+
 def main():
     index = INDEX.read_text(encoding="utf-8")
     index = re.sub(
@@ -297,12 +430,18 @@ def main():
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(build_page(s, header, footer, mobile_bar, icons), encoding="utf-8")
 
+    for ind in INDUSTRY_PAGES:
+        out = ROOT / "branchen" / ind["slug"] / "index.html"
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(build_industry_page(ind, header, footer, mobile_bar, icons), encoding="utf-8")
+
     urls = [f"{SITE}/"] + [f'{SITE}/leistungen/{s["slug"]}/' for s in SERVICES]
+    urls += [f'{SITE}/branchen/{i["slug"]}/' for i in INDUSTRY_PAGES]
     sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
     sitemap += "".join(f"  <url>\n    <loc>{u}</loc>\n  </url>\n" for u in urls)
     sitemap += "</urlset>\n"
     (ROOT / "sitemap.xml").write_text(sitemap, encoding="utf-8")
-    print(f"Built {len(SERVICES)} service pages")
+    print(f"Built {len(SERVICES)} service pages and {len(INDUSTRY_PAGES)} industry pages")
 
 
 if __name__ == "__main__":

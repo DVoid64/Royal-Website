@@ -164,16 +164,6 @@ MENU_GROUPS = [
     ("Für Privat", ["privathaushalte", "fensterreinigung", "baustellen-endreinigung"]),
 ]
 
-# "Branchen" menu: client group, short line, service page it leads to
-INDUSTRIES = [
-    ("Büros und Kanzleien", "Reinigung zu Zeiten, die zum Betrieb passen", "bueroreinigung"),
-    ("Arztpraxen", "Praxisräume, Wartebereiche und Sanitärräume", "bueroreinigung"),
-    ("Hausverwaltungen", "Treppenhäuser und Gemeinschaftsflächen", "treppenhausreinigung"),
-    ("Autohäuser", "Ausstellungsflächen und Glasfronten", "gebaeudereinigung"),
-    ("Bauunternehmen", "Endreinigung vor der Übergabe", "baustellen-endreinigung"),
-    ("Privathaushalte", "Wohnungen und Häuser", "privathaushalte"),
-]
-
 # "Unternehmen" menu: label, short line, link
 COMPANY = [
     ("Über uns", "Gegründet 2025 in Oberhausen", "/#ueber-uns"),
