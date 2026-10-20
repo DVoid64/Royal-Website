@@ -1229,44 +1229,50 @@ a {
   text-underline-offset: 4px;
 }
 
-@media (max-width: 1040px) {
+/* Tablets and phones: the tiles become a compact list (icon, name, arrow);
+   the full description lives on each service page */
+@media (max-width: 1100px) {
   .tile-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 600px) {
-  .tile-grid {
-    grid-template-columns: 1fr;
   }
 
   .tile-wide {
     grid-column: auto;
   }
 
-  /* On phones the tiles become a compact list: icon, name, arrow */
+  .tile-grid > .tile:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+
   .tile-link {
     flex-direction: row;
     align-items: center;
     gap: 1rem;
     min-height: 0;
-    padding: 1rem 1.25rem;
+    padding: 1.1rem 1.25rem;
   }
 
-  .tile-link::after {
+  .tile h3 {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .tile h3::after {
     content: "";
     flex: none;
     width: 8px;
     height: 8px;
-    margin-left: auto;
     border-top: 1.5px solid var(--gold-deep);
     border-right: 1.5px solid var(--gold-deep);
     transform: rotate(45deg);
   }
 
   .tile-icon {
-    width: 34px;
-    height: 34px;
+    width: 36px;
+    height: 36px;
     margin: 0;
   }
 
@@ -1277,6 +1283,16 @@ a {
   .tile p,
   .tile-more {
     display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .tile-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .tile-link {
+    padding: 1rem 1.25rem;
   }
 }
 
