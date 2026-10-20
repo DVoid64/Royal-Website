@@ -152,7 +152,7 @@ SERVICES = [
 
 # Navigation groups in the "Leistungen" menu (slugs, in order)
 MENU_GROUPS = [
-    ("Für Gewerbe", ["gebaeudereinigung", "bueroreinigung", "fensterreinigung",
-                     "fassadenreinigung", "treppenhausreinigung", "baustellen-endreinigung"]),
-    ("Für Privat", ["privathaushalte", "fensterreinigung", "baustellen-endreinigung"]),
+    ("Regelmäßige Reinigung", ["gebaeudereinigung", "bueroreinigung", "treppenhausreinigung", "privathaushalte"]),
+    ("Glas und Fassade", ["fensterreinigung", "fassadenreinigung"]),
+    ("Einmalige Reinigung", ["baustellen-endreinigung"]),
 ]

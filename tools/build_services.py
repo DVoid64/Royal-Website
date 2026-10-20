@@ -87,8 +87,7 @@ def build_header():
             <button class="nav-trigger" type="button" aria-expanded="false" aria-controls="menu-leistungen">Leistungen{CHEVRON}</button>
             <div class="nav-panel mega" id="menu-leistungen">
               <div class="mega-inner">
-              {groups[0]}
-              {groups[1]}
+              {"".join(groups)}
               <aside class="mega-promo">
                 <img src="/assets/img/photos/fassadenreinigung.webp" alt="" width="1400" height="934" loading="lazy">
                 <div class="mega-promo-body">
