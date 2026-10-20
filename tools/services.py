@@ -14,7 +14,7 @@ SERVICES = [
         "name": "Gebäudereinigung",
         "form": "Gebäudereinigung",
         "tile": "Unterhaltsreinigung für Gewerbe- und Wohngebäude nach festem Leistungsplan. Für Hausverwaltungen, Gewerbeobjekte und Autohäuser.",
-        "intro": "Regelmäßige Unterhaltsreinigung für Gewerbe- und Wohngebäude in Oberhausen und Umgebung. Umfang und Turnus legen wir in einem festen Leistungsplan fest.",
+        "intro": "Regelmäßige Unterhaltsreinigung für Gewerbe- und Wohngebäude. Umfang und Turnus legen wir in einem festen Leistungsplan fest.",
         "scope": [
             "Böden saugen und feucht wischen",
             "Sanitärbereiche reinigen",
@@ -35,7 +35,7 @@ SERVICES = [
         "name": "Büroreinigung",
         "form": "Büroreinigung",
         "tile": "Arbeitsplätze, Besprechungsräume, Küchen und Sanitärräume. Die Reinigungszeiten stimmen wir mit Ihrem Betrieb ab.",
-        "intro": "Büroreinigung für Unternehmen, Kanzleien und Praxen in Oberhausen und Umgebung. Die Reinigungszeiten stimmen wir mit Ihrem Betriebsablauf ab.",
+        "intro": "Büroreinigung für Unternehmen, Kanzleien und Praxen. Die Reinigungszeiten stimmen wir mit Ihrem Betriebsablauf ab.",
         "scope": [
             "Freigeräumte Arbeitsflächen und Schreibtische reinigen",
             "Böden saugen und feucht wischen",
@@ -55,7 +55,7 @@ SERVICES = [
         "name": "Fensterreinigung",
         "form": "Fensterreinigung",
         "tile": "Glasflächen, Rahmen und Fensterbänke, innen und außen. Auch Schaufenster und Ausstellungsflächen.",
-        "intro": "Fensterreinigung für Gewerbe und Privathaushalte in Oberhausen und Umgebung. Glas, Rahmen und Fensterbänke, innen und außen.",
+        "intro": "Fensterreinigung für Gewerbe und Privathaushalte. Glas, Rahmen und Fensterbänke, innen und außen.",
         "scope": [
             "Glasflächen innen und außen streifenfrei reinigen",
             "Rahmen und Fensterbänke reinigen",
@@ -74,7 +74,7 @@ SERVICES = [
         "name": "Fassadenreinigung",
         "form": "Fassadenreinigung",
         "tile": "Fassaden aus Glas, Metall, Putz oder Klinker. Das Verfahren legen wir nach Material und Verschmutzung fest.",
-        "intro": "Fassadenreinigung für Gewerbe- und Wohngebäude in Oberhausen und Umgebung. Das Verfahren richtet sich nach Material und Verschmutzung der Fassade.",
+        "intro": "Fassadenreinigung für Gewerbe- und Wohngebäude. Das Verfahren richtet sich nach Material und Verschmutzung der Fassade.",
         "scope": [
             "Glasfassaden",
             "Metallfassaden und Verkleidungen",
@@ -94,7 +94,7 @@ SERVICES = [
         "name": "Treppenhausreinigung",
         "form": "Treppenhausreinigung",
         "tile": "Treppen, Geländer, Eingangsbereiche und Briefkastenanlagen im festen Turnus. Für Hausverwaltungen und Eigentümer.",
-        "intro": "Treppenhausreinigung für Mehrfamilienhäuser in Oberhausen und Umgebung. Im festen Turnus und mit Fotobericht nach jedem Einsatz.",
+        "intro": "Treppenhausreinigung für Mehrfamilienhäuser. Im festen Turnus und mit Fotobericht nach jedem Einsatz.",
         "scope": [
             "Treppen und Podeste kehren und feucht wischen",
             "Geländer und Handläufe abwischen",
@@ -113,10 +113,10 @@ SERVICES = [
         "icon": '<path d="M6 22L24 7l18 15"/><path d="M11 18v24h26V18"/><path d="M20 42V30h8v12"/><path d="M31 10V5h4v8"/>',
         "name": "Privathaushalte",
         "form": "Privathaushalt",
-        "h1": "Haushaltsreinigung in Oberhausen",
+        "h1": "Haushaltsreinigung",
         "cta": "Ihren Haushalt",
         "tile": "Einmalige oder regelmäßige Reinigung von Wohnungen und Häusern. Mit fester Ansprechperson und Festpreis.",
-        "intro": "Reinigung von Wohnungen und Häusern in Oberhausen und Umgebung, einmalig oder regelmäßig. Mit fester Ansprechperson und Festpreis.",
+        "intro": "Reinigung von Wohnungen und Häusern, einmalig oder regelmäßig. Mit fester Ansprechperson und Festpreis.",
         "scope": [
             "Wohn- und Schlafräume reinigen",
             "Küche reinigen",
@@ -136,7 +136,7 @@ SERVICES = [
         "name": "Baustellen-Endreinigung",
         "form": "Baustellen-Endreinigung",
         "tile": "Entfernung von Staub, Farb- und Mörtelresten nach Bau oder Renovierung. Die Räume sind danach übergabefertig.",
-        "intro": "Endreinigung nach Neubau, Umbau oder Renovierung in Oberhausen und Umgebung. Danach können die Räume übergeben oder bezogen werden.",
+        "intro": "Endreinigung nach Neubau, Umbau oder Renovierung. Danach können die Räume übergeben oder bezogen werden.",
         "scope": [
             "Baustaub von Böden, Wänden und Oberflächen entfernen",
             "Farb-, Mörtel- und Kleberreste entfernen",

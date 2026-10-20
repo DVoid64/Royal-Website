@@ -2854,6 +2854,119 @@ a {
 }
 
 
+/* Effects */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity .7s ease, transform .9s var(--ease-out);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Pointer-following gold light on cards */
+.has-glow {
+  position: relative;
+  isolation: isolate;
+}
+
+.has-glow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(260px circle at var(--glow-x, 50%) var(--glow-y, 50%), rgba(214, 168, 62, .16), transparent 70%);
+  opacity: 0;
+  transition: opacity .35s ease;
+}
+
+.has-glow:hover::after {
+  opacity: 1;
+}
+
+.tile-link.has-glow::after {
+  z-index: 0;
+}
+
+.tile-link.has-glow > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Light sweep across gold buttons */
+.btn-gold {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-gold::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -60%;
+  width: 45%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, .55), transparent);
+  transform: skewX(-20deg);
+  pointer-events: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn-gold:hover::before {
+    left: 120%;
+    transition: left .7s var(--ease-out);
+  }
+}
+
+/* Photos open like a curtain and settle into place */
+.subhero-photo img {
+  animation: photo-reveal 1.6s var(--ease-out) .15s both;
+}
+
+@keyframes photo-reveal {
+  from {
+    clip-path: inset(100% 0 0 0);
+    transform: scale(1.12);
+  }
+  60% {
+    clip-path: inset(0 0 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+    transform: scale(1);
+  }
+}
+
+/* Hero text rises in with the seal */
+.hero-title,
+.hero-actions,
+.hero-facts {
+  animation: rise-in .9s var(--ease-out) both;
+}
+
+.hero-actions {
+  animation-delay: .15s;
+}
+
+.hero-facts {
+  animation-delay: .3s;
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
