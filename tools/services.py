@@ -163,11 +163,3 @@ MENU_GROUPS = [
                      "fassadenreinigung", "treppenhausreinigung", "baustellen-endreinigung"]),
     ("Für Privat", ["privathaushalte", "fensterreinigung", "baustellen-endreinigung"]),
 ]
-
-# "Unternehmen" menu: label, short line, link
-COMPANY = [
-    ("Über uns", "Gegründet 2025 in Oberhausen", "/#ueber-uns"),
-    ("Warum Royal Clean Services AY", "Unsere vier Zusagen", "/#warum"),
-    ("Ablauf", "Von der Anfrage zum Festpreis-Angebot", "/#ablauf"),
-    ("Einsatzgebiet", "Oberhausen und Umgebung", "/#einsatzgebiet"),
-]

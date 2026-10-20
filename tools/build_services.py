@@ -12,7 +12,8 @@ from urllib.parse import quote
 from PIL import Image
 
 from industries import INDUSTRY_PAGES
-from services import COMPANY, MENU_GROUPS, SERVICES
+from faq import FAQ
+from services import MENU_GROUPS, SERVICES
 
 ROOT = Path(__file__).resolve().parent.parent
 INDEX = ROOT / "index.html"
@@ -24,7 +25,7 @@ def esc(text):
 
 
 def quote_url(service):
-    return "/?leistung=" + quote(service["form"]) + "#anfrage"
+    return "/kontakt/?leistung=" + quote(service["form"])
 
 
 def icon_svg(service, cls):
@@ -55,7 +56,6 @@ def build_header():
                 </ul>
               </div>''')
     industries = "\n              ".join(menu_link(f"/branchen/{i['slug']}/", i["name"], i["menu"]) for i in INDUSTRY_PAGES)
-    company = "\n              ".join(menu_link(href, name, text) for name, text, href in COMPANY)
     return f'''<header class="site-header" data-header>
     <div class="topbar">
       <div class="container topbar-inner">
@@ -72,7 +72,7 @@ def build_header():
     <div class="container header-inner">
       <a class="brand" href="/" aria-label="Royal Clean Services AY, zur Startseite">
         <img src="/assets/img/logo-emblem-320.webp" width="160" height="119" alt="">
-        <span class="brand-name">Royal Clean <span>Services AY</span></span>
+        <span class="brand-name"><span class="brand-royal">Royal</span><span class="brand-rest">Clean Services AY</span></span>
       </a>
 
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-menu-toggle>
@@ -82,6 +82,7 @@ def build_header():
 
       <nav class="site-nav" id="site-nav" aria-label="Hauptnavigation" data-nav>
         <ul class="nav-list">
+          <li class="nav-item"><a class="nav-link" href="/">Startseite</a></li>
           <li class="nav-item nav-item-mega" data-dropdown>
             <button class="nav-trigger" type="button" aria-expanded="false" aria-controls="menu-leistungen">Leistungen{CHEVRON}</button>
             <div class="nav-panel mega" id="menu-leistungen">
@@ -93,7 +94,7 @@ def build_header():
                 <div class="mega-promo-body">
                   <p class="mega-promo-title">Kostenloses Angebot in 24 Stunden</p>
                   <p>Nach der Besichtigung, mit Festpreis.</p>
-                  <a class="btn btn-gold btn-small" href="/#anfrage">Angebot anfragen</a>
+                  <a class="btn btn-gold btn-small" href="/kontakt/">Angebot anfragen</a>
                   <a class="mega-phone" href="tel:+4917676275792">oder 0176 76275792 anrufen</a>
                 </div>
               </aside>
@@ -107,15 +108,11 @@ def build_header():
               {industries}
             </ul>
           </li>
-          <li class="nav-item" data-dropdown>
-            <button class="nav-trigger" type="button" aria-expanded="false" aria-controls="menu-unternehmen">Unternehmen{CHEVRON}</button>
-            <ul class="nav-panel dropdown" id="menu-unternehmen">
-              {company}
-            </ul>
-          </li>
-          <li class="nav-item"><a class="nav-link" href="/#anfrage">Kontakt</a></li>
+          <li class="nav-item"><a class="nav-link" href="/ueber-uns/">Über uns</a></li>
+          <li class="nav-item"><a class="nav-link" href="/faq/">FAQ</a></li>
+          <li class="nav-item"><a class="nav-link" href="/kontakt/">Kontakt</a></li>
         </ul>
-        <a class="btn btn-gold btn-small nav-cta" href="/#anfrage">Angebot anfragen</a>
+        <a class="btn btn-gold btn-small nav-cta" href="/kontakt/">Angebot anfragen</a>
       </nav>
     </div>
     <span class="scroll-progress" aria-hidden="true" data-progress></span>
@@ -407,11 +404,124 @@ def build_industry_page(ind, header, footer, mobile_bar, icons):
 '''
 
 
+HEAD = '''<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{title}</title>
+  <meta name="description" content="{desc}">
+  <link rel="canonical" href="{url}">
+  <meta name="theme-color" content="#0A1128">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="de_DE">
+  <meta property="og:title" content="{title}">
+  <meta property="og:description" content="{desc}">
+  <meta property="og:url" content="{url}">
+  <meta property="og:image" content="https://royalclean-ay.de/assets/img/og-image.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32.png">
+  <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+  <link rel="preload" href="/assets/fonts/cormorant-garamond-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/jost-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/css/style.css">{extra}
+</head>'''
+
+
+def shell(path, title, desc, body, body_class, chrome, scripts=("main",), extra=""):
+    header, footer, mobile_bar, icons = chrome
+    head = HEAD.format(title=esc(title), desc=esc(desc), url=f"{SITE}/{path}", extra=extra)
+    tags = "\n".join(f'  <script src="/assets/js/{name}.js" defer></script>' for name in scripts)
+    return f'''{head}
+<body class="{body_class}">
+  <a class="skip-link" href="#main">Zum Inhalt springen</a>
+
+  {header}
+
+  <main id="main">
+{body}
+  </main>
+
+  {footer}
+
+  {mobile_bar}
+
+  {icons}
+
+{tags}
+</body>
+</html>
+'''
+
+
+def build_faq(heading="h2", link=False):
+    items = "\n".join(f'''          <details class="faq-item">
+            <summary>{esc(q)}<span class="faq-mark" aria-hidden="true"></span></summary>
+            <p>{esc(a)}</p>
+          </details>''' for q, a in FAQ)
+    more = '\n          <a class="faq-more" href="/kontakt/">Ihre Frage ist nicht dabei? Schreiben Sie uns.</a>' if link else ""
+    return f'''    <section class="section section-light faq" id="faq" aria-labelledby="faq-title">
+      <div class="container faq-grid">
+        <div class="faq-head">
+          <{heading} id="faq-title">Häufige Fragen</{heading}>
+          <p>Antworten zu Angebot, Preis, Ablauf und Einsatzgebiet.</p>{more}
+        </div>
+        <div class="faq-list">
+{items}
+        </div>
+      </div>
+    </section>'''
+
+
+def faq_jsonld():
+    import json
+    data = {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in FAQ
+        ],
+    }
+    return '\n  <script type="application/ld+json">\n  ' + json.dumps(data, ensure_ascii=False) + "\n  </script>"
+
+
+def build_static_pages(index, chrome):
+    contact = (ROOT / "tools/partials/contact-section.html").read_text(encoding="utf-8")
+    contact = contact.replace('<h2 id="anfrage-title">Angebot anfragen</h2>', '<h1 id="anfrage-title">Angebot anfragen</h1>')
+    contact = contact.replace('class="section section-black contact"', 'class="section section-black contact contact-page"')
+    contact = contact.replace('<a href="datenschutz.html">', '<a href="/datenschutz.html">')
+    pages = {
+        "kontakt/": ("Angebot anfragen | Royal Clean Services AY",
+                     "Kostenloses Angebot für Gebäudereinigung in Oberhausen und Umgebung anfragen: per Formular, WhatsApp, E-Mail oder Telefon.",
+                     contact + "\n\n" + build_faq(link=False), "page-contact", ("main",), ""),
+        "faq/": ("Häufige Fragen | Royal Clean Services AY",
+                 "Antworten zu Angebot, Preis, Fotobericht, Nachbesserung und Einsatzgebiet von Royal Clean Services AY.",
+                 build_faq(heading="h1", link=True), "page-faq", ("main",), faq_jsonld()),
+    }
+    about = (ROOT / "tools/partials/ueber-uns.html").read_text(encoding="utf-8")
+    process = extract(index, '    <section class="section section-light process"', "</section>")
+    area = extract(index, '    <section class="section area"', "</section>")
+    about = about.replace("{process}", process).replace("{area}", area)
+    pages["ueber-uns/"] = ("Über uns | Royal Clean Services AY",
+                           "Royal Clean Services AY: Gebäudereinigung aus Oberhausen, gegründet 2025 von Amir Hussain Rajabi und Yasin Yilmaz. Unser Versprechen und unser Team.",
+                           about, "page-about", ("seal", "main"), "")
+    for path, (title, desc, body, cls, scripts, extra) in pages.items():
+        out = ROOT / path / "index.html"
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(shell(path, title, desc, body, cls, chrome, scripts, extra), encoding="utf-8")
+    return list(pages)
+
+
 def main():
     index = INDEX.read_text(encoding="utf-8")
     index = re.sub(
         r"(<!-- services:start -->).*?(\s*<!-- services:end -->)",
         lambda m: m.group(1) + "\n" + build_tiles() + m.group(2),
+        index,
+        flags=re.S,
+    )
+    index = re.sub(
+        r"(<!-- faq:start -->).*?(\s*<!-- faq:end -->)",
+        lambda m: m.group(1) + "\n" + build_faq(link=True) + m.group(2),
         index,
         flags=re.S,
     )
@@ -425,6 +535,8 @@ def main():
     mobile_bar = rootify(extract(index, '<div class="mobile-bar">', "</div>"))
     icons = extract(index, '<svg width="0" height="0"', "</svg>\n\n  <script").rsplit("\n\n  <script", 1)[0]
 
+    static_pages = build_static_pages(index, (header, footer, mobile_bar, icons))
+
     for s in SERVICES:
         out = ROOT / "leistungen" / s["slug"] / "index.html"
         out.parent.mkdir(parents=True, exist_ok=True)
@@ -437,6 +549,7 @@ def main():
 
     urls = [f"{SITE}/"] + [f'{SITE}/leistungen/{s["slug"]}/' for s in SERVICES]
     urls += [f'{SITE}/branchen/{i["slug"]}/' for i in INDUSTRY_PAGES]
+    urls += [f"{SITE}/{path}" for path in static_pages]
     sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
     sitemap += "".join(f"  <url>\n    <loc>{u}</loc>\n  </url>\n" for u in urls)
     sitemap += "</urlset>\n"

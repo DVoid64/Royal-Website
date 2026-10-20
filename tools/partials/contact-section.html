@@ -1,0 +1,130 @@
+    <!-- Anfrage -->
+    <section class="section section-black contact" id="anfrage" aria-labelledby="anfrage-title">
+      <div class="container contact-grid">
+        <div class="contact-copy">
+          <h2 id="anfrage-title">Angebot anfragen</h2>
+          <p>Beschreiben Sie kurz Ihr Objekt. Wir vereinbaren eine Besichtigung und senden Ihnen innerhalb von 24 Stunden danach ein Festpreis-Angebot. Das Angebot ist kostenlos und unverbindlich.</p>
+
+          <dl class="contact-list">
+            <div>
+              <dt>Telefon</dt>
+              <dd><a href="tel:+4917676275792">0176 76275792</a></dd>
+            </div>
+            <div>
+              <dt>WhatsApp</dt>
+              <dd><a href="https://wa.me/4917676275792" target="_blank" rel="noopener">Nachricht schreiben</a></dd>
+            </div>
+            <div>
+              <dt>E-Mail</dt>
+              <dd><a href="mailto:info@royalclean-ay.de">info@royalclean-ay.de</a></dd>
+            </div>
+            <div>
+              <dt>Adresse</dt>
+              <dd>Mülheimer Straße 128<br>46045 Oberhausen</dd>
+            </div>
+            <div>
+              <dt>Erreichbar</dt>
+              <dd>8:00 bis 16:00 Uhr</dd>
+            </div>
+          </dl>
+        </div>
+
+        <form class="quote-form" data-quote-form novalidate>
+          <fieldset class="form-choice">
+            <legend>Sie sind</legend>
+            <label><input type="radio" name="kunde" value="Gewerbe" checked> Gewerbe</label>
+            <label><input type="radio" name="kunde" value="Privat"> Privat</label>
+          </fieldset>
+
+          <div class="form-row">
+            <div class="field">
+              <label for="f-name">Name</label>
+              <input id="f-name" name="name" type="text" autocomplete="name" required>
+              <p class="field-error" id="f-name-error"></p>
+            </div>
+            <div class="field" data-business-only>
+              <label for="f-firma">Firma <span class="optional">(optional)</span></label>
+              <input id="f-firma" name="firma" type="text" autocomplete="organization">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="field">
+              <label for="f-telefon">Telefon</label>
+              <input id="f-telefon" name="telefon" type="tel" autocomplete="tel" required>
+              <p class="field-error" id="f-telefon-error"></p>
+            </div>
+            <div class="field">
+              <label for="f-email">E-Mail <span class="optional">(optional)</span></label>
+              <input id="f-email" name="email" type="email" autocomplete="email">
+              <p class="field-error" id="f-email-error"></p>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="field">
+              <label for="f-leistung">Leistung</label>
+              <select id="f-leistung" name="leistung" required>
+                <option value="">Bitte wählen</option>
+                <option>Gebäudereinigung</option>
+                <option>Büroreinigung</option>
+                <option>Fensterreinigung</option>
+                <option>Fassadenreinigung</option>
+                <option>Treppenhausreinigung</option>
+                <option>Privathaushalt</option>
+                <option>Baustellen-Endreinigung</option>
+                <option>Mehrere Leistungen</option>
+              </select>
+              <p class="field-error" id="f-leistung-error"></p>
+            </div>
+            <div class="field">
+              <label for="f-ort">Ort des Objekts</label>
+              <input id="f-ort" name="ort" type="text" autocomplete="address-level2" placeholder="z. B. Oberhausen-Sterkrade" required>
+              <p class="field-error" id="f-ort-error"></p>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="field">
+              <label for="f-turnus">Wie oft?</label>
+              <select id="f-turnus" name="turnus">
+                <option>Einmalig</option>
+                <option>Täglich</option>
+                <option>Mehrmals pro Woche</option>
+                <option>Wöchentlich</option>
+                <option>Alle zwei Wochen</option>
+                <option>Monatlich</option>
+                <option>Noch offen</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="f-flaeche">Fläche in m² <span class="optional">(ungefähr, optional)</span></label>
+              <input id="f-flaeche" name="flaeche" type="text" inputmode="numeric">
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="f-nachricht">Was sollen wir wissen? <span class="optional">(optional)</span></label>
+            <textarea id="f-nachricht" name="nachricht" rows="4" placeholder="z. B. Büro mit 6 Arbeitsplätzen, zwei Sanitärräume, Reinigung am liebsten freitags"></textarea>
+          </div>
+
+          <div class="field field-check">
+            <input id="f-datenschutz" name="datenschutz" type="checkbox" required>
+            <label for="f-datenschutz">Ich habe die <a href="datenschutz.html">Datenschutzerklärung</a> gelesen. Meine Angaben werden nur zur Bearbeitung der Anfrage verwendet.</label>
+            <p class="field-error" id="f-datenschutz-error"></p>
+          </div>
+
+          <div class="form-submit">
+            <button class="btn btn-gold" type="submit" name="via" value="whatsapp">
+              <svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><use href="#i-whatsapp"/></svg>
+              Per WhatsApp senden
+            </button>
+            <button class="btn btn-ghost" type="submit" name="via" value="email">
+              <svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><use href="#i-mail"/></svg>
+              Per E-Mail senden
+            </button>
+          </div>
+          <p class="form-status" role="status" data-form-status></p>
+        </form>
+      </div>
+    </section>
