@@ -21,9 +21,19 @@ python3 -m http.server 8000
 
 Dann http://localhost:8000 öffnen.
 
-## Veröffentlichen bei IONOS
+## Veröffentlichen
 
-Alle Dateien dieses Ordners (ohne `.git`, `.claude`, `skills-lock.json`, `README.md`) per SFTP in das Webspace-Verzeichnis der Domain laden, oder IONOS „Deploy Now“ mit diesem GitHub-Repository verbinden.
+Die Seite läuft über GitHub Pages. Jeder Push auf `main` startet den Workflow `.github/workflows/pages.yml`, der nur die Webseiten-Dateien veröffentlicht (ohne `.claude`, README usw.).
+
+Einmalige Einrichtung:
+
+1. GitHub: Settings → Pages → Source „GitHub Actions“ wählen, Custom domain `royalclean-ay.de` eintragen, „Enforce HTTPS“ aktivieren, sobald verfügbar.
+2. IONOS: Domains & SSL → royalclean-ay.de → DNS:
+   - A-Einträge für `@`: `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`
+   - CNAME für `www`: `dvoid64.github.io`
+   - Bestehende MX-Einträge für E-Mail nicht ändern.
+
+Die `.htaccess` wird von GitHub Pages ignoriert. Sie ist nur für den Fall gedacht, dass die Seite später auf einen Apache-Webspace (z. B. IONOS Webhosting) umzieht.
 
 ## Vor dem Livegang
 
