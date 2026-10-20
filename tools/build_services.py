@@ -205,7 +205,7 @@ def build_page(s, header, footer, mobile_bar, icons):
           <span aria-hidden="true">/</span>
           <span aria-current="page">{esc(s["name"])}</span>
         </nav>
-        <h1 class="subhero-title">{esc(s.get("h1", s["name"] + " in Oberhausen"))}</h1>
+        <h1 class="subhero-title">{esc(s.get("h1", s["name"]))}</h1>
         <p class="subhero-lead">{esc(s["intro"])}</p>
         <div class="hero-actions">
           <a class="btn btn-gold btn-large" href="{quote_url(s)}">Kostenloses Angebot in 24 Stunden</a>
@@ -275,7 +275,7 @@ def build_industry_page(ind, header, footer, mobile_bar, icons):
     with Image.open(ROOT / ind["photo"].lstrip("/")) as img:
         w, h = img.size
     url = f'{SITE}/branchen/{ind["slug"]}/'
-    title = f'{ind["h1"].replace(" in Oberhausen", "")} in Oberhausen | Royal Clean Services AY'
+    title = f'{ind["h1"]} in Oberhausen | Royal Clean Services AY'
     needs = "\n".join(f'''          <li class="need">
             <h3>{esc(n_title)}</h3>
             <p>{esc(n_text)}</p>
@@ -513,6 +513,34 @@ def build_static_pages(index, chrome):
     return list(pages)
 
 
+def fingerprint_assets():
+    """Append ?v=<content hash> to every asset reference so browsers never show stale files."""
+    import hashlib
+    cache = {}
+
+    def version(path):
+        if path not in cache:
+            f = ROOT / path
+            cache[path] = hashlib.sha1(f.read_bytes()).hexdigest()[:8] if f.is_file() else None
+        return cache[path]
+
+    def repl(m):
+        attr, slash, path = m.group(1), m.group(2), m.group(3)
+        v = version(path)
+        return f'{attr}="{slash}{path}?v={v}"' if v else m.group(0)
+
+    # Fonts are left out: the CSS requests them without a version, and the
+    # preload must use the identical URL or the browser downloads them twice
+    pattern = re.compile(r'(src|href)="(/?)(assets/(?!fonts/)[^"?#]+)(?:\?v=[0-9a-f]+)?"')
+    for page in ROOT.rglob("*.html"):
+        if any(part.startswith(".") for part in page.relative_to(ROOT).parts):
+            continue
+        text = page.read_text(encoding="utf-8")
+        new = pattern.sub(repl, text)
+        if new != text:
+            page.write_text(new, encoding="utf-8")
+
+
 def main():
     index = INDEX.read_text(encoding="utf-8")
     index = re.sub(
@@ -556,6 +584,7 @@ def main():
     sitemap += "".join(f"  <url>\n    <loc>{u}</loc>\n  </url>\n" for u in urls)
     sitemap += "</urlset>\n"
     (ROOT / "sitemap.xml").write_text(sitemap, encoding="utf-8")
+    fingerprint_assets()
     print(f"Built {len(SERVICES)} service pages and {len(INDUSTRY_PAGES)} industry pages")
 
 

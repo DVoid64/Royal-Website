@@ -2,6 +2,25 @@
   "use strict";
 
   var WHATSAPP_NUMBER = "4917676275792";
+
+  // wa.me lets the phone pick the app, which is often WhatsApp Business when both
+  // are installed. On Android we ask for the regular WhatsApp Messenger directly
+  // and fall back to wa.me if it is missing.
+  var isAndroid = /Android/i.test(navigator.userAgent);
+
+  function whatsappUrl(text) {
+    var web = "https://wa.me/" + WHATSAPP_NUMBER + (text ? "?text=" + encodeURIComponent(text) : "");
+    if (!isAndroid) return web;
+    return "intent://send?phone=" + WHATSAPP_NUMBER + (text ? "&text=" + encodeURIComponent(text) : "") +
+      "#Intent;scheme=whatsapp;package=com.whatsapp;S.browser_fallback_url=" + encodeURIComponent(web) + ";end";
+  }
+
+  if (isAndroid) {
+    document.querySelectorAll('a[href^="https://wa.me/"]').forEach(function (link) {
+      link.setAttribute("href", whatsappUrl(""));
+      link.removeAttribute("target");
+    });
+  }
   var EMAIL = "info@royalclean-ay.de";
 
   // Header background once the page scrolls
@@ -126,6 +145,74 @@
   // Footer year
   var year = document.querySelector("[data-year]");
   if (year) year.textContent = String(new Date().getFullYear());
+
+  // Effects
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+  // Elements glide in as they scroll into view, siblings slightly staggered.
+  // Anything already on screen at load stays put, so nothing flashes.
+  if (!reduceMotion && "IntersectionObserver" in window) {
+    var revealSelector = [
+      ".section-head", ".charter-head", ".tile", ".why-item", ".step", ".process-note",
+      ".faq-head", ".faq-item", ".cta-inner", ".need", ".needs-title", ".scope-list li",
+      ".detail-aside", ".other-list li", ".facts-list > div", ".motto-inner", ".pledge-head",
+      ".pledge-list li", ".pledge-foot", ".owner", ".owners-note", ".city-list li", ".area-map",
+      ".client-group", ".contact-copy", ".quote-form"
+    ].join(",");
+    var revealIo = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-visible");
+        revealIo.unobserve(entry.target);
+      });
+    }, { rootMargin: "0px 0px -8% 0px" });
+
+    document.querySelectorAll(revealSelector).forEach(function (el) {
+      if (el.getBoundingClientRect().top < window.innerHeight * 0.92) return;
+      var index = Array.prototype.indexOf.call(el.parentElement.children, el);
+      el.classList.add("reveal");
+      el.style.transitionDelay = Math.min(index, 6) * 70 + "ms";
+      revealIo.observe(el);
+    });
+  }
+
+  // A soft gold light follows the pointer across cards
+  if (finePointer && !reduceMotion) {
+    document.querySelectorAll(".tile-link, .why-item, .owner, .need, .detail-aside, .menu-link").forEach(function (card) {
+      card.classList.add("has-glow");
+      card.addEventListener("pointermove", function (e) {
+        var r = card.getBoundingClientRect();
+        card.style.setProperty("--glow-x", (e.clientX - r.left) + "px");
+        card.style.setProperty("--glow-y", (e.clientY - r.top) + "px");
+      });
+    });
+  }
+
+  // Count the figures on the about page up once they are visible
+  if (!reduceMotion && "IntersectionObserver" in window) {
+    var countIo = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        countIo.unobserve(entry.target);
+        var el = entry.target;
+        var match = el.textContent.match(/^(\d+)(.*)$/);
+        var end = Number(match[1]);
+        var suffix = match[2];
+        var start = performance.now();
+        var duration = 1100;
+        (function tick(now) {
+          var p = Math.min(1, (now - start) / duration);
+          var eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = Math.round(end * eased) + suffix;
+          if (p < 1) requestAnimationFrame(tick);
+        })(start);
+      });
+    }, { threshold: 0.6 });
+    document.querySelectorAll(".facts-list dt").forEach(function (dt) {
+      if (/^\d+( h)?$/.test(dt.textContent.trim())) countIo.observe(dt);
+    });
+  }
 
   // Quote form
   var form = document.querySelector("[data-quote-form]");
@@ -252,7 +339,11 @@
         "&body=" + encodeURIComponent(text);
       status.textContent = "Ihr E-Mail-Programm wurde mit der fertigen Anfrage geöffnet. Bitte senden Sie die E-Mail dort ab.";
     } else {
-      window.open("https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(text), "_blank", "noopener");
+      if (isAndroid) {
+        window.location.href = whatsappUrl(text);
+      } else {
+        window.open(whatsappUrl(text), "_blank", "noopener");
+      }
       status.textContent = "WhatsApp wurde mit der fertigen Anfrage geöffnet. Bitte senden Sie die Nachricht dort ab.";
     }
   });
