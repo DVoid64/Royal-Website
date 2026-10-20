@@ -51,6 +51,6 @@ Die `.htaccess` wird von GitHub Pages ignoriert. Sie ist nur für den Fall gedac
 
 ## Vor dem Livegang
 
-- Im Impressum die markierten Platzhalter (Umsatzsteuer-ID, Handwerkskammer) ergänzen oder entfernen.
+- Falls vorhanden, Umsatzsteuer-ID und Handwerkskammer (Handwerkskammer Düsseldorf, Betriebsnummer) im Impressum ergänzen.
 - Impressum und Datenschutzerklärung rechtlich prüfen lassen.
 - SSL-Zertifikat für die Domain im IONOS-Kundenbereich aktivieren.
