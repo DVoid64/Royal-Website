@@ -14,6 +14,24 @@
     window.addEventListener("scroll", onScroll, { passive: true });
   }
 
+  // Thin gold reading-progress line under the header
+  var progress = document.querySelector("[data-progress]");
+  if (progress) {
+    var ticking = false;
+    var updateProgress = function () {
+      var max = document.documentElement.scrollHeight - window.innerHeight;
+      progress.style.transform = "scaleX(" + (max > 0 ? Math.min(1, window.scrollY / max) : 0).toFixed(4) + ")";
+      ticking = false;
+    };
+    updateProgress();
+    window.addEventListener("scroll", function () {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(updateProgress);
+      }
+    }, { passive: true });
+  }
+
   // Mobile menu
   var toggle = document.querySelector("[data-menu-toggle]");
   var nav = document.querySelector("[data-nav]");

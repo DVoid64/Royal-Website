@@ -90,7 +90,8 @@ def build_page(s, header, footer, mobile_bar, icons):
 
   <main id="main">
     <section class="subhero">
-      <div class="container">
+      <div class="container subhero-inner">
+        <div class="seal seal-sub" data-seal="static" aria-hidden="true"></div>
         <nav class="breadcrumb" aria-label="Brotkrümelnavigation">
           <a href="/">Startseite</a>
           <span aria-hidden="true">/</span>
@@ -158,6 +159,7 @@ def build_page(s, header, footer, mobile_bar, icons):
 
   {icons}
 
+  <script src="/assets/js/seal.js" defer></script>
   <script src="/assets/js/main.js" defer></script>
 </body>
 </html>

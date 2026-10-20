@@ -74,12 +74,16 @@
         <a class="btn btn-gold btn-small" href="#anfrage">Angebot anfragen</a>
       </nav>
     </div>
+    <span class="scroll-progress" aria-hidden="true" data-progress></span>
   </header>
 
   <main id="main">
     <!-- Hero -->
     <section class="hero" id="top">
       <div class="container hero-inner">
+        <div class="seal-stage" aria-hidden="true">
+          <div class="seal seal-hero" data-seal="hero"></div>
+        </div>
         <h1 class="hero-title">Gebäudereinigung in Oberhausen und Umgebung</h1>
         <div class="hero-actions">
           <a class="btn btn-gold btn-large" href="#anfrage">Kostenloses Angebot in 24 Stunden</a>
@@ -160,7 +164,9 @@
     <!-- Warum -->
     <section class="section why" aria-labelledby="warum-title">
       <div class="container">
-        <div class="section-head">
+        <div class="charter">
+        <div class="seal seal-charter" data-seal="reveal" aria-hidden="true"></div>
+        <div class="charter-head">
           <h2 id="warum-title">Warum Royal Clean Services AY</h2>
           <p>Diese Punkte gelten für jeden Auftrag, unabhängig von Objektgröße und Turnus.</p>
         </div>
@@ -187,6 +193,7 @@
             <p>Ist etwas nicht wie vereinbart, melden Sie es uns. Wir bessern innerhalb von 24 Stunden kostenlos nach.</p>
           </li>
         </ul>
+        </div>
       </div>
     </section>
 
@@ -227,22 +234,22 @@
         </div>
         <ol class="steps">
           <li class="step">
-            <span class="step-num" aria-hidden="true">1</span>
+            <span class="step-num" aria-hidden="true">I</span>
             <h3>Anfrage senden</h3>
             <p>Über das Formular, per WhatsApp oder telefonisch. Wenige Angaben zum Objekt genügen.</p>
           </li>
           <li class="step">
-            <span class="step-num" aria-hidden="true">2</span>
+            <span class="step-num" aria-hidden="true">II</span>
             <h3>Besichtigung</h3>
             <p>Wir sehen uns das Objekt vor Ort an und nehmen Umfang und Anforderungen auf.</p>
           </li>
           <li class="step">
-            <span class="step-num" aria-hidden="true">3</span>
+            <span class="step-num" aria-hidden="true">III</span>
             <h3>Festpreis-Angebot</h3>
             <p>Innerhalb von 24 Stunden nach der Besichtigung liegt Ihnen das Angebot vor. Es ist kostenlos und unverbindlich.</p>
           </li>
           <li class="step">
-            <span class="step-num" aria-hidden="true">4</span>
+            <span class="step-num" aria-hidden="true">IV</span>
             <h3>Reinigung mit Fotobericht</h3>
             <p>Unser Team reinigt nach Plan. Nach jedem Einsatz erhalten Sie den Fotobericht.</p>
           </li>
@@ -471,6 +478,7 @@
     <symbol id="i-phone" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 5a2 2 0 0 1 2-2z"/></symbol>
   </svg>
 
+  <script src="assets/js/seal.js" defer></script>
   <script src="assets/js/main.js" defer></script>
 </body>
 </html>
