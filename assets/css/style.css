@@ -1088,10 +1088,6 @@ a {
   border: 1px solid var(--line-light);
 }
 
-.tile-wide {
-  grid-column: span 2;
-}
-
 .tile-link {
   position: relative;
   display: flex;
@@ -1229,44 +1225,158 @@ a {
   text-underline-offset: 4px;
 }
 
-@media (max-width: 1040px) {
-  .tile-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+/* Closing tile: quote request */
+.tile-cta .tile-link {
+  background: var(--navy);
+  color: var(--text-on-dark);
+}
+
+.tile-cta .tile-link p {
+  color: var(--muted-on-dark);
+}
+
+.tile-cta .tile-more {
+  color: var(--gold-light);
+}
+
+.tile-cta h3 {
+  color: var(--gold-light);
+}
+
+.tile-cta h3::after {
+  border-color: var(--gold-light) !important;
+}
+
+/* Homepage on desktop: tighter sections so the page stays short */
+@media (min-width: 1101px) {
+  .page-home .section {
+    padding-block: clamp(3.5rem, 2rem + 3.5vw, 5.5rem);
+  }
+
+  .page-home .hero {
+    min-height: min(78vh, 760px);
+  }
+
+  .page-home .section-head {
+    margin-bottom: 2.5rem;
+  }
+
+  .page-home .services .section-head h2 {
+    font-size: var(--step-4);
+  }
+
+  .page-home .tile-link {
+    min-height: 0;
+    padding: 1.6rem 1.5rem 1.5rem;
+  }
+
+  .page-home .tile-icon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 1.1rem;
+  }
+
+  .page-home .tile p {
+    margin-top: .45rem;
+    font-size: .9375rem;
+  }
+
+  .page-home .tile-cta .tile-more {
+    padding-top: 1rem;
+  }
+
+  .page-home .why {
+    padding-top: calc(clamp(3.5rem, 2rem + 3.5vw, 5.5rem) + 2.5rem);
+  }
+
+  .page-home .charter {
+    padding: 5.5rem 3rem 2.5rem;
+  }
+
+  .page-home .seal-charter {
+    width: 130px;
+  }
+
+  .page-home .charter-head {
+    margin-bottom: 2.25rem;
+  }
+
+  .page-home .why-list {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .page-home .why-item,
+  .page-home .why-item:nth-child(even) {
+    display: block;
+    padding: 1.75rem 1.5rem 0;
+    border-bottom: 0;
+    border-left: 1px solid var(--line-dark);
+  }
+
+  .page-home .why-item:first-child {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .page-home .why-icon {
+    width: 38px;
+    height: 38px;
+    margin-bottom: 1rem;
+  }
+
+  .page-home .why-item h3 {
+    font-size: 1.5rem;
+  }
+
+  .page-home .why-item p {
+    font-size: .9375rem;
+  }
+
+  .page-home .faq-item summary {
+    padding: 1.05rem 0;
   }
 }
 
-@media (max-width: 600px) {
+/* Tablets and phones: the tiles become a compact list (icon, name, arrow);
+   the full description lives on each service page */
+@media (max-width: 1100px) {
   .tile-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .tile-wide {
-    grid-column: auto;
+  .tile-grid > .tile:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
   }
 
-  /* On phones the tiles become a compact list: icon, name, arrow */
   .tile-link {
     flex-direction: row;
     align-items: center;
     gap: 1rem;
     min-height: 0;
-    padding: 1rem 1.25rem;
+    padding: 1.1rem 1.25rem;
   }
 
-  .tile-link::after {
+  .tile h3 {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .tile h3::after {
     content: "";
     flex: none;
     width: 8px;
     height: 8px;
-    margin-left: auto;
     border-top: 1.5px solid var(--gold-deep);
     border-right: 1.5px solid var(--gold-deep);
     transform: rotate(45deg);
   }
 
   .tile-icon {
-    width: 34px;
-    height: 34px;
+    width: 36px;
+    height: 36px;
     margin: 0;
   }
 
@@ -1277,6 +1387,16 @@ a {
   .tile p,
   .tile-more {
     display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .tile-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .tile-link {
+    padding: 1rem 1.25rem;
   }
 }
 
@@ -2411,15 +2531,6 @@ a {
   max-width: 40rem;
   padding: 0 3rem 1.5rem 0;
   color: var(--muted-on-light);
-}
-
-.process + .faq {
-  padding-top: 0;
-}
-
-.process + .faq .faq-grid {
-  padding-top: var(--section-space);
-  border-top: 1px solid var(--line-light);
 }
 
 .page-faq .faq {

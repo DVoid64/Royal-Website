@@ -127,14 +127,19 @@ def inject_header(path, header):
 
 def build_tiles():
     items = []
-    for i, s in enumerate(SERVICES):
-        wide = " tile-wide" if i == 0 else ""
-        items.append(f'''          <li class="tile{wide}">
+    for s in SERVICES:
+        items.append(f'''          <li class="tile">
             <a class="tile-link" href="leistungen/{s["slug"]}/">
               {icon_svg(s, "tile-icon")}
               <h3>{esc(s["name"])}</h3>
-              <p>{esc(s["tile"])}</p>
-              <span class="tile-more">Details ansehen</span>
+              <p>{esc(s["menu"])}</p>
+            </a>
+          </li>''')
+    items.append('''          <li class="tile tile-cta">
+            <a class="tile-link" href="/kontakt/">
+              <h3>Kostenloses Angebot</h3>
+              <p>Festpreis innerhalb von 24 Stunden nach der Besichtigung</p>
+              <span class="tile-more">Angebot anfragen</span>
             </a>
           </li>''')
     return '        <ul class="tile-grid">\n' + "\n".join(items) + "\n        </ul>"
@@ -500,7 +505,7 @@ def build_static_pages(index, chrome):
                  build_faq(heading="h1", link=True), "page-faq", ("main",), faq_jsonld()),
     }
     about = (ROOT / "tools/partials/ueber-uns.html").read_text(encoding="utf-8")
-    process = extract(index, '    <section class="section section-light process"', "</section>")
+    process = (ROOT / "tools/partials/process.html").read_text(encoding="utf-8").rstrip("\n")
     area = (ROOT / "tools/partials/area.html").read_text(encoding="utf-8").rstrip("\n")
     about = about.replace("{process}", process).replace("{area}", area)
     pages["ueber-uns/"] = ("Über uns | Royal Clean Services AY",
