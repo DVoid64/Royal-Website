@@ -24,12 +24,19 @@ def quote_url(service):
     return "/?leistung=" + quote(service["form"]) + "#anfrage"
 
 
+def icon_svg(service, cls):
+    # Every stroke gets pathLength=1 so CSS can redraw the icon on hover
+    body = re.sub(r"<(path|rect|circle)\b", r'<\1 pathLength="1"', service["icon"])
+    return f'<svg class="{cls}" viewBox="0 0 48 48" aria-hidden="true">{body}</svg>'
+
+
 def build_tiles():
     items = []
     for i, s in enumerate(SERVICES):
         wide = " tile-wide" if i == 0 else ""
         items.append(f'''          <li class="tile{wide}">
             <a class="tile-link" href="leistungen/{s["slug"]}/">
+              {icon_svg(s, "tile-icon")}
               <h3>{esc(s["name"])}</h3>
               <p>{esc(s["tile"])}</p>
               <span class="tile-more">Details ansehen</span>
