@@ -9,6 +9,8 @@ import re
 from pathlib import Path
 from urllib.parse import quote
 
+from PIL import Image
+
 from services import SERVICES
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -61,6 +63,8 @@ def rootify(fragment):
 
 
 def build_page(s, header, footer, mobile_bar, icons):
+    with Image.open(ROOT / s["photo"].lstrip("/")) as img:
+        w, h = img.size
     others = "\n".join(
         f'            <li><a href="/leistungen/{o["slug"]}/">{esc(o["name"])}</a></li>'
         for o in SERVICES if o is not s
@@ -99,7 +103,7 @@ def build_page(s, header, footer, mobile_bar, icons):
     <section class="subhero">
       <div class="container subhero-inner">
         <figure class="subhero-photo photo">
-          <img src="{s["photo"]}" alt="{esc(s["photo_alt"])}" width="1400" height="934" fetchpriority="high">
+          <img src="{s["photo"]}" alt="{esc(s["photo_alt"])}" width="{w}" height="{h}" fetchpriority="high">
         </figure>
         <nav class="breadcrumb" aria-label="Brotkrümelnavigation">
           <a href="/">Startseite</a>
@@ -119,7 +123,7 @@ def build_page(s, header, footer, mobile_bar, icons):
           <li>Fotobericht nach jedem Einsatz</li>
           <li>Festpreis ohne versteckte Kosten</li>
         </ul>
-        <p class="photo-credit">Symbolfoto: Unsplash</p>
+        <p class="photo-credit">Symbolfoto: {s["photo_src"]}</p>
       </div>
     </section>
 
