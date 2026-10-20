@@ -505,7 +505,7 @@ def build_static_pages(index, chrome):
                  build_faq(heading="h1", link=True), "page-faq", ("main",), faq_jsonld()),
     }
     about = (ROOT / "tools/partials/ueber-uns.html").read_text(encoding="utf-8")
-    process = extract(index, '    <section class="section section-light process"', "</section>")
+    process = (ROOT / "tools/partials/process.html").read_text(encoding="utf-8").rstrip("\n")
     area = (ROOT / "tools/partials/area.html").read_text(encoding="utf-8").rstrip("\n")
     about = about.replace("{process}", process).replace("{area}", area)
     pages["ueber-uns/"] = ("Über uns | Royal Clean Services AY",
