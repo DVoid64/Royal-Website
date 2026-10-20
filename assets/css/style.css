@@ -1,17 +1,17 @@
 /* Royal Clean Services AY */
 
 @font-face {
-  font-family: "Marcellus";
-  src: url("../fonts/marcellus-latin.woff2") format("woff2");
-  font-weight: 400;
+  font-family: "Cormorant Garamond";
+  src: url("../fonts/cormorant-garamond-latin.woff2") format("woff2");
+  font-weight: 400 700;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "Figtree";
-  src: url("../fonts/figtree-latin.woff2") format("woff2");
-  font-weight: 400 700;
+  font-family: "Jost";
+  src: url("../fonts/jost-latin.woff2") format("woff2");
+  font-weight: 300 600;
   font-style: normal;
   font-display: swap;
 }
@@ -35,17 +35,17 @@
   --line-dark: rgba(214, 168, 62, .28);
   --line-light: rgba(10, 17, 40, .14);
 
-  --font-display: "Marcellus", "Times New Roman", serif;
-  --font-body: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Cormorant Garamond", "Garamond", "Times New Roman", serif;
+  --font-body: "Jost", system-ui, -apple-system, "Segoe UI", sans-serif;
 
   /* Type scale, ratio ~1.25 */
   --step--1: .875rem;
   --step-0: 1.0625rem;
   --step-1: 1.3125rem;
-  --step-2: 1.625rem;
-  --step-3: clamp(1.875rem, 1.4rem + 1.6vw, 2.5rem);
-  --step-4: clamp(2.25rem, 1.5rem + 2.6vw, 3.5rem);
-  --step-hero: clamp(3rem, 1.6rem + 6vw, 6.75rem);
+  --step-2: 1.875rem;
+  --step-3: clamp(2.125rem, 1.6rem + 1.8vw, 2.875rem);
+  --step-4: clamp(2.625rem, 1.7rem + 3vw, 4.125rem);
+  --step-hero: clamp(3.5rem, 1.8rem + 6.8vw, 7.75rem);
 
   --container: 1200px;
   --gutter: clamp(1rem, .5rem + 2.5vw, 2.5rem);
@@ -88,9 +88,9 @@ h2,
 h3 {
   margin: 0;
   font-family: var(--font-display);
-  font-weight: 400;
-  line-height: 1.12;
-  letter-spacing: .005em;
+  font-weight: 500;
+  line-height: 1.08;
+  letter-spacing: 0;
   text-wrap: balance;
 }
 
@@ -243,7 +243,8 @@ a {
 
 .brand-name {
   font-family: var(--font-display);
-  font-size: 1.1875rem;
+  font-size: 1.375rem;
+  font-weight: 600;
   line-height: 1.1;
   color: var(--gold-light);
 }
@@ -374,13 +375,13 @@ a {
     padding-block: .9rem;
     border-bottom: 1px solid rgba(214, 168, 62, .14);
     font-family: var(--font-display);
-    font-size: 1.375rem;
+    font-size: 1.625rem;
   }
 }
 
 @media (max-width: 420px) {
   .brand-name {
-    font-size: 1.0625rem;
+    font-size: 1.25rem;
   }
 
   .brand img {
@@ -409,8 +410,9 @@ a {
 
 .hero-title {
   font-size: var(--step-hero);
-  line-height: .98;
-  letter-spacing: -.01em;
+  font-weight: 500;
+  line-height: .95;
+  letter-spacing: -.005em;
   color: var(--gold-light);
   background: linear-gradient(100deg, #F6E2AE 0%, var(--gold-light) 30%, var(--gold) 70%, #B8872A 100%);
   -webkit-background-clip: text;
@@ -890,8 +892,10 @@ a {
   border: 1px solid var(--gold);
   border-radius: 50%;
   font-family: var(--font-display);
-  font-size: 1.5rem;
+  font-size: 1.75rem;
+  font-weight: 600;
   color: var(--gold-deep);
+  font-variant-numeric: lining-nums;
   background: var(--porcelain);
 }
 
@@ -1017,7 +1021,8 @@ a {
 
 .map-home text {
   font-family: var(--font-display);
-  font-size: 19px;
+  font-size: 22px;
+  font-weight: 600;
   fill: var(--gold-light);
 }
 
