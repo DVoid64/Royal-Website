@@ -1,7 +1,8 @@
 """Build the business-card landing pages (/karte/<slug>/) and their vCard files.
 
 The QR code on each printed card opens one of these pages, where the visitor
-chooses WhatsApp, a call, saving the contact or the website.
+chooses WhatsApp, a call, an e-mail, saving the contact or the website.
+The URLs /karte/yasin/ and /karte/amir/ are printed on the cards: never rename them.
 """
 from pathlib import Path
 
@@ -9,7 +10,8 @@ ROOT = Path(__file__).resolve().parent.parent
 SITE = "https://royalclean-ay.de"
 COMPANY_TEL = "+4917676275792"
 WHATSAPP = "4917676275792"
-WA_TEXT = "Hallo%2C%20ich%20habe%20Ihre%20Visitenkarte%20erhalten%20und%20interessiere%20mich%20f%C3%BCr%20ein%20Angebot."
+MAIL_SUBJECT = "Anfrage%20%C3%BCber%20Ihre%20Visitenkarte"
+WA_TEXT ="Hallo%2C%20ich%20habe%20Ihre%20Visitenkarte%20erhalten%20und%20interessiere%20mich%20f%C3%BCr%20ein%20Angebot."
 
 PEOPLE = [
     {"slug": "yasin", "first": "Yasin", "last": "Yilmaz", "tel": "+4915735500310", "tel_label": "0157 35500310"},
@@ -21,6 +23,7 @@ ICONS = {
     "phone": '<path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 5a2 2 0 0 1 2-2Z"/>',
     "save": '<circle cx="10" cy="8" r="4"/><path d="M3 20a7 7 0 0 1 12.5-4.3M19 14v6M16 17h6"/>',
     "mail": '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>',
+    "offer": '<path d="M7 3h7l5 5v13H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/><path d="M14 3v5h5M9 13h6M9 17h4"/>',
     "globe": '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>',
 }
 
@@ -56,7 +59,7 @@ def page(p):
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>{name} | Royal Clean Services AY</title>
-  <meta name="description" content="Kontakt zu {name}, Royal Clean Services AY: WhatsApp, Anruf, Kontakt speichern oder Angebot anfragen.">
+  <meta name="description" content="Kontakt zu {name}, Royal Clean Services AY: WhatsApp, Anruf, E-Mail, Kontakt speichern oder Angebot anfragen.">
   <meta name="robots" content="noindex">
   <meta name="theme-color" content="#0A1128">
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32.png">
@@ -99,8 +102,9 @@ def page(p):
     <nav class="actions" aria-label="Kontakt">
       <a class="btn primary" href="https://wa.me/{WHATSAPP}?text={WA_TEXT}" target="_blank" rel="noopener">{icon("chat")}<span>WhatsApp schreiben<small>0176 76275792 · erreichbar 8 bis 16 Uhr</small></span></a>
       <a class="btn" href="tel:{p['tel']}">{icon("phone")}<span>Anrufen<small>{p['tel_label']}</small></span></a>
+      <a class="btn" href="mailto:info@royalclean-ay.de?subject={MAIL_SUBJECT}">{icon("mail")}<span>E-Mail schreiben<small>info@royalclean-ay.de</small></span></a>
       <a class="btn" href="/karte/{p['slug']}/{vcf}" download>{icon("save")}<span>Kontakt speichern<small>Direkt ins Adressbuch</small></span></a>
-      <a class="btn" href="/kontakt/">{icon("mail")}<span>Angebot anfragen<small>Kostenlos, Festpreis in 24 Stunden</small></span></a>
+      <a class="btn" href="/kontakt/">{icon("offer")}<span>Angebot anfragen<small>Kostenlos, Festpreis in 24 Stunden</small></span></a>
       <a class="btn" href="/">{icon("globe")}<span>Webseite ansehen<small>royalclean-ay.de</small></span></a>
     </nav>
     <address>Royal Clean Services AY GbR<br>Mülheimer Straße 128 · 46045 Oberhausen<br><a href="mailto:info@royalclean-ay.de" style="color:inherit">info@royalclean-ay.de</a></address>
